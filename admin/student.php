@@ -16,28 +16,28 @@ include('header.php');
         </div>
       </div>
     </div>
-  	<div class="card-body">
-  		<div class="table-responsive">
-        	<span id="message_operation"></span>
-        	<table class="table table-striped table-bordered" id="student_table">
-  				<thead>
-  					<tr>
-  						<th>Student Name</th>
-  						<th>Roll No.</th>
-  						<th>Date of Birth</th>
-              			<th>Grade</th>
-  						<th>Edit</th>
-  						<th>Delete</th>
-  					</tr>
-  				</thead>
-  				<tbody>
+    <div class="card-body">
+      <div class="table-responsive">
+       <span id="message_operation"></span>
+       <table class="table table-striped table-bordered" id="student_table">
+        <thead>
+         <tr>
+          <th>Nombre</th>
+          <th>Inscrito Núm</th>
+          <th>Fecha de inscripción</th>
+          <th>Curso</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
 
-  				</tbody>
-  			</table>
-  			
-  		</div>
-  	</div>
+      </tbody>
+    </table>
+
   </div>
+</div>
+</div>
 </div>
 
 </body>
@@ -47,9 +47,9 @@ include('header.php');
 <link rel="stylesheet" href="../css/datepicker.css" />
 
 <style>
-    .datepicker {
-      z-index: 1600 !important; /* has to be larger than 1050 */
-    }
+  .datepicker {
+    z-index: 1600 !important; /* has to be larger than 1050 */
+  }
 </style>
 
 <div class="modal" id="formModal">
@@ -67,7 +67,7 @@ include('header.php');
         <div class="modal-body">
           <div class="form-group">
             <div class="row">
-              <label class="col-md-4 text-right">Student Name <span class="text-danger">*</span></label>
+              <label class="col-md-4 text-right">Nombre <span class="text-danger">*</span></label>
               <div class="col-md-8">
                 <input type="text" name="student_name" id="student_name" class="form-control" />
                 <span id="error_student_name" class="text-danger"></span>
@@ -76,7 +76,7 @@ include('header.php');
           </div>
           <div class="form-group">
             <div class="row">
-              <label class="col-md-4 text-right">Roll No. <span class="text-danger">*</span></label>
+              <label class="col-md-4 text-right">Inscrito Número <span class="text-danger">*</span></label>
               <div class="col-md-8">
                 <input type="text" name="student_roll_number" id="student_roll_number" class="form-control" />
                 <span id="error_student_roll_number" class="text-danger"></span>
@@ -85,7 +85,7 @@ include('header.php');
           </div>
           <div class="form-group">
             <div class="row">
-              <label class="col-md-4 text-right">Date of Birth <span class="text-danger">*</span></label>
+              <label class="col-md-4 text-right">Fecha de inscipción <span class="text-danger">*</span></label>
               <div class="col-md-8">
                 <input type="text" name="student_dob" id="student_dob" class="form-control" />
                 <span id="error_student_dob" class="text-danger"></span>
@@ -94,15 +94,15 @@ include('header.php');
           </div>
           <div class="form-group">
             <div class="row">
-              <label class="col-md-4 text-right">Grade <span class="text-danger">*</span></label>
+              <label class="col-md-4 text-right">Curso <span class="text-danger">*</span></label>
               <div class="col-md-8">
                 <select name="student_grade_id" id="student_grade_id" class="form-control">
-                  <option value="">Select Grade</option>
+                  <option value="">Escoge un curso</option>
                   <?php
                   echo load_grade_list($connect);
                   ?>
-              </select>
-              <span id="error_student_grade_id" class="text-danger"></span>
+                </select>
+                <span id="error_student_grade_id" class="text-danger"></span>
               </div>
             </div>
           </div>
@@ -113,12 +113,12 @@ include('header.php');
         	<input type="hidden" name="student_id" id="student_id" />
         	<input type="hidden" name="action" id="action" value="Add" />
         	<input type="submit" name="button_action" id="button_action" class="btn btn-success btn-sm" value="Add" />
-          	<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
-        </div>
+         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
+       </div>
 
-      </div>
-  </form>
-  </div>
+     </div>
+   </form>
+ </div>
 </div>
 
 <div class="modal" id="deleteModal">
@@ -127,19 +127,19 @@ include('header.php');
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Delete Confirmation</h4>
+        <h4 class="modal-title">Eliminar confirmación</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-        <h3 align="center">Are you sure you want to remove this?</h3>
+        <h3 align="center">¿Estás seguro?</h3>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" name="ok_button" id="ok_button" class="btn btn-primary btn-sm">OK</button>
-        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
       </div>
 
     </div>
@@ -147,102 +147,102 @@ include('header.php');
 </div>
 
 <script>
-$(document).ready(function(){
-	
-	var dataTable = $('#student_table').DataTable({
-		"processing":true,
-		"serverSide":true,
-		"order":[],
-		"ajax":{
-			url:"student_action.php",
-			method:"POST",
-			data:{action:'fetch'},
-		}
-	});
+  $(document).ready(function(){
 
-	$('#student_dob').datepicker({
-		format:"yyyy-mm-dd",
-		autoclose: true,
-        container: '#formModal modal-body'
-	});
+   var dataTable = $('#student_table').DataTable({
+    "processing":true,
+    "serverSide":true,
+    "order":[],
+    "ajax":{
+     url:"student_action.php",
+     method:"POST",
+     data:{action:'fetch'},
+   }
+ });
 
-	function clear_field()
-	{
-		$('#student_form')[0].reset();
-		$('#error_student_name').text('');
-		$('#error_student_roll_number').text('');
-		$('#error_student_dob').text('');
-		$('#error_student_grade_id').text('');
-	}
+   $('#student_dob').datepicker({
+    format:"yyyy-mm-dd",
+    autoclose: true,
+    container: '#formModal modal-body'
+  });
 
-	$('#add_button').click(function(){
-		$('#modal_title').text('Add Student');
-		$('#button_action').val('Add');
-		$('#action').val('Add');
-		$('#formModal').modal('show');
-		clear_field();
-	});
+   function clear_field()
+   {
+    $('#student_form')[0].reset();
+    $('#error_student_name').text('');
+    $('#error_student_roll_number').text('');
+    $('#error_student_dob').text('');
+    $('#error_student_grade_id').text('');
+  }
 
-	$('#student_form').on('submit', function(event){
-		event.preventDefault();
-		$.ajax({
-			url:"student_action.php",
-			method:"POST",
-			data:$(this).serialize(),
-			dataType:"json",
-			beforeSend:function(){
-				$('#button_action').val('Validate...');
-				$('#button_action').attr('disabled', 'disabled');
-			},
-			success:function(data)
-			{
-				$('#button_action').attr('disabled', false);
-				$('#button_action').val($('#action').val());
-				if(data.success)
-				{
-					$('#message_operation').html('<div class="alert alert-success">'+data.success+'</div>');
-					clear_field();
-					$('#formModal').modal('hide');
-					dataTable.ajax.reload();
-				}
-				if(data.error)
-				{
-					if(data.error_student_name != '')
-					{
-						$('#error_student_name').text(data.error_student_name);
-					}
-					else
-					{
-						$('#error_student_name').text('');
-					}
-					if(data.error_student_roll_number != '')
-					{
-						$('#error_student_roll_number').text(data.error_student_roll_number);
-					}
-					else
-					{
-						$('#error_student_roll_number').text('');
-					}
-					if(data.error_student_dob != '')
-					{
-						$('#error_student_dob').text(data.error_student_dob);
-					}
-					else
-					{
-						$('#error_student_dob').text('');
-					}
-					if(data.error_student_grade_id != '')
-					{
-						$('#error_student_grade_id').text(data.error_student_grade_id);
-					}
-					else
-					{
-						$('#error_student_grade_id').text('');
-					}
-				}
-			}
-		})
-	});
+  $('#add_button').click(function(){
+    $('#modal_title').text('Add Student');
+    $('#button_action').val('Add');
+    $('#action').val('Add');
+    $('#formModal').modal('show');
+    clear_field();
+  });
+
+  $('#student_form').on('submit', function(event){
+    event.preventDefault();
+    $.ajax({
+     url:"student_action.php",
+     method:"POST",
+     data:$(this).serialize(),
+     dataType:"json",
+     beforeSend:function(){
+      $('#button_action').val('Validate...');
+      $('#button_action').attr('disabled', 'disabled');
+    },
+    success:function(data)
+    {
+      $('#button_action').attr('disabled', false);
+      $('#button_action').val($('#action').val());
+      if(data.success)
+      {
+       $('#message_operation').html('<div class="alert alert-success">'+data.success+'</div>');
+       clear_field();
+       $('#formModal').modal('hide');
+       dataTable.ajax.reload();
+     }
+     if(data.error)
+     {
+       if(data.error_student_name != '')
+       {
+        $('#error_student_name').text(data.error_student_name);
+      }
+      else
+      {
+        $('#error_student_name').text('');
+      }
+      if(data.error_student_roll_number != '')
+      {
+        $('#error_student_roll_number').text(data.error_student_roll_number);
+      }
+      else
+      {
+        $('#error_student_roll_number').text('');
+      }
+      if(data.error_student_dob != '')
+      {
+        $('#error_student_dob').text(data.error_student_dob);
+      }
+      else
+      {
+        $('#error_student_dob').text('');
+      }
+      if(data.error_student_grade_id != '')
+      {
+        $('#error_student_grade_id').text(data.error_student_grade_id);
+      }
+      else
+      {
+        $('#error_student_grade_id').text('');
+      }
+    }
+  }
+})
+  });
 
   var student_id = '';
 

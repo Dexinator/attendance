@@ -96,7 +96,10 @@ $result = $statement->fetchAll();
             <div class="row">
               <label class="col-md-4 text-right">Attendance Date <span class="text-danger">*</span></label>
               <div class="col-md-8">
-                <input type="text" name="attendance_date" id="attendance_date" class="form-control" readonly />
+
+                <!-- <input type="text" name="attendance_date" id="attendance_date" class="form-control" readonly /> -->
+                <input type="text" name="attendance_date" id="attendance_date" class="form-control" readonly value=<?php echo date("Y-m-d"); ?>>
+
                 <span id="error_attendance_date" class="text-danger"></span>
               </div>
             </div>
@@ -130,10 +133,10 @@ $result = $statement->fetchAll();
                       <input type="hidden" name="student_id[]" value="<?php echo $student["student_id"]; ?>" />
                     </td>
                     <td>
-                      <input type="radio" name="attendance_status<?php echo $student["student_id"]; ?>" value="Presente" />
+                      <input type="radio" name="attendance_status<?php echo $student["student_id"]; ?>" value="Present" />
                     </td>
                     <td>
-                      <input type="radio" name="attendance_status<?php echo $student["student_id"]; ?>" checked value="Ausente" />
+                      <input type="radio" name="attendance_status<?php echo $student["student_id"]; ?>" checked value="Absent" />
                     </td>
                   </tr>
                 <?php
@@ -192,6 +195,11 @@ $result = $statement->fetchAll();
 </div>
 
 <script>
+function fecha(nume){
+  alert(nume);
+}
+
+
 $(document).ready(function(){
 	
   var dataTable = $('#attendance_table').DataTable({
@@ -205,11 +213,6 @@ $(document).ready(function(){
     }
   });
 
-  $('#attendance_date').datepicker({
-    format:'yyyy-mm-dd',
-    autoclose:true,
-    container: '#formModal modal-body'
-  });
 
   function clear_field()
   {

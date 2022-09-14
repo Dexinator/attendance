@@ -15,7 +15,7 @@ if(!isset($_SESSION["admin_id"]))
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Student Attendance System in PHP using Ajax</title>
+  <title>Guarderías Dabaleg</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -36,31 +36,31 @@ if(!isset($_SESSION["admin_id"]))
 <body>
 
 <div class="jumbotron-small text-center" style="margin-bottom:0">
-  <h1>Student Attendance System</h1>
+  <h1>Sistema de assitencia</h1>
 </div>
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <a class="navbar-brand" href="index.php">Home</a>
+  <a class="navbar-brand" href="index.php">Inicio</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="grade.php">Grade</a>
+        <a class="nav-link" href="grade.php">Curso</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="teacher.php">Teacher</a>
+        <a class="nav-link" href="teacher.php">Staff</a>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="student.php">Student</a>
+        <a class="nav-link" href="student.php">Niños</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="attendance.php">Attendance</a>
+        <a class="nav-link" href="attendance.php">Asistencia</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="logout.php">Logout</a>
+        <a class="nav-link" href="logout.php">Salir</a>
       </li>  
     </ul>
   </div>  

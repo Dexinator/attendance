@@ -31,13 +31,13 @@ foreach($result as $row)
 	if($row["attendance_status"] == "Present")
 	{
 		$total_present++;
-		$status = '<span class="badge badge-success">Present</span>';
+		$status = '<span class="badge badge-success">Presente</span>';
 	}
 
 	if($row["attendance_status"] == "Absent")
 	{
 		$total_absent++;
-		$status = '<span class="badge badge-danger">Absent</span>';
+		$status = '<span class="badge badge-danger">Ausente</span>';
 	}
 
 	$output .= '
