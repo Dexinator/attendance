@@ -16,8 +16,8 @@ include('header.php');
         </div>
       </div>
     </div>
-  	<div class="card-body">
-  		<div class="table-responsive">
+    <div class="card-body">
+      <div class="table-responsive">
         <table class="table table-striped table-bordered" id="student_table">
           <thead>
             <tr>
@@ -33,8 +33,8 @@ include('header.php');
 
           </tbody>
         </table>
-  		</div>
-  	</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -45,10 +45,10 @@ include('header.php');
 <link rel="stylesheet" href="../css/datepicker.css" />
 
 <style>
-    .datepicker
-    {
-      z-index: 1600 !important; /* has to be larger than 1050 */
-    }
+  .datepicker
+  {
+    z-index: 1600 !important; /* has to be larger than 1050 */
+  }
 </style>
 
 <div class="modal" id="formModal">
@@ -91,8 +91,8 @@ include('header.php');
 </div>
 
 <script>
-$(document).ready(function(){
-	 
+  $(document).ready(function(){
+    
    var dataTable = $('#student_table').DataTable({
     "processing":true,
     "serverSide":true,
@@ -102,20 +102,20 @@ $(document).ready(function(){
       type:"POST",
       data:{action:'index_fetch'}
     }
-   });
+  });
 
    $('.input-daterange').datepicker({
     todayBtn:"linked",
     format:'yyyy-mm-dd',
     autoclose:true,
     container: '#formModal modal-body'
-   });
+  });
 
    $(document).on('click', '.report_button', function(){
     var student_id = $(this).data('student_id');
     $('#student_id').val(student_id);
     $('#formModal').modal('show');
-   });
+  });
 
    $('#create_report').click(function(){
     var student_id = $('#student_id').val();
@@ -157,7 +157,7 @@ $(document).ready(function(){
       }
     }
 
-   });
+  });
 
-});
+ });
 </script>
