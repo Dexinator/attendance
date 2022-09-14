@@ -39,9 +39,9 @@ class Data_Range{
       //select date_format(attendance_date, '%M %Y') as "Month",COUNT(CASE WHEN attendance_status = "Present" then 1 END) as "Present", COUNT(CASE WHEN attendance_status = "Absent" then 1 END) as "Absent"  from tbl_attendance where attendance_date<"2022-04-01" group by year(attendance_date),month(attendance_date);
       //$this->stmt = $this->pdo->prepare("SELECT * FROM tbl_attendance  where attendance_date >= ? AND  attendance_date <= ?");
       if ($periodicidad=="Mensual"){
-        $this->stmt = $this->pdo->prepare("SELECT DATE_FORMAT(attendance_date, '%M %Y') AS 'Month', COUNT(CASE WHEN attendance_status = 'Present' then 1 END) as 'Present', COUNT(CASE WHEN attendance_status = 'Absent' THEN 1 END) AS 'Absent'  FROM tbl_attendance WHERE attendance_date>=FROM_UNIXTIME(?)  AND attendance_date<= FROM_UNIXTIME(?) GROUP BY year(attendance_date),month(attendance_date)");
+        $this->stmt = $this->pdo->prepare("SELECT UNIX_TIMESTAMP(attendance_date)*1000 AS 'Date', COUNT(CASE WHEN attendance_status = 'Present' then 1 END) as 'Present', COUNT(CASE WHEN attendance_status = 'Absent' THEN 1 END) AS 'Absent'  FROM tbl_attendance WHERE attendance_date>=FROM_UNIXTIME(?)  AND attendance_date<= FROM_UNIXTIME(?) GROUP BY year(attendance_date),month(attendance_date)");
       }elseif ($periodicidad=="Diario") {
-        $this->stmt = $this->pdo->prepare("SELECT DATE_FORMAT(attendance_date, '%M %Y %D') AS 'DAY', COUNT(CASE WHEN attendance_status = 'Present' then 1 END) as 'Present', COUNT(CASE WHEN attendance_status = 'Absent' THEN 1 END) AS 'Absent'  FROM tbl_attendance WHERE attendance_date>=FROM_UNIXTIME(?)  AND attendance_date<= FROM_UNIXTIME(?) GROUP BY month(attendance_date),day(attendance_date)");
+        $this->stmt = $this->pdo->prepare("SELECT UNIX_TIMESTAMP(attendance_date)*1000 AS 'Date', COUNT(CASE WHEN attendance_status = 'Present' then 1 END) as 'Present', COUNT(CASE WHEN attendance_status = 'Absent' THEN 1 END) AS 'Absent'  FROM tbl_attendance WHERE attendance_date>=FROM_UNIXTIME(?)  AND attendance_date<= FROM_UNIXTIME(?) GROUP BY month(attendance_date),day(attendance_date)");
       }
       $this->stmt->execute([$corr_start,$corr_end]);
 
@@ -87,11 +87,11 @@ if ((isset($_GET["end_date"])) && (isset($_GET["start_date"]))){
     $total=$Presentes+$Ausentes;
   }
 */
-for ($i = 0; $i < count($records); $i++) {
+  for ($i = 0; $i < count($records); $i++) {
     $records[$i]["asistencia"]=$records[$i]["Present"]/($records[$i]["Present"]+$records[$i]["Absent"]);
     $records[$i]["faltas"]=$records[$i]["Absent"]/($records[$i]["Present"]+$records[$i]["Absent"]);
 
-}
+  }
 
   header('Content-Type: application/json; charset=utf-8');
   echo json_encode($records);

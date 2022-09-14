@@ -15,6 +15,9 @@ include('header.php');
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/locales/de_DE.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/geodata/germanyLow.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
 
 <!-- Chart code -->
 
@@ -27,7 +30,7 @@ include('header.php');
         <table class="table table-bordered table-striped">
           <label>Día de inicio</label>
           <div class="field">
-            <input type="text" id="selected_dates" >
+            <input type="text" id="selected_dates" onchange="monthgraph(start_date,end_date);" >
             <div id="radio_period">
               <label for="PMensual">Mensual</label>
               <input id="PMensual" type="radio" name="periodo" value="Mensual" onchange="monthgraph(start_date,end_date);">
@@ -49,10 +52,7 @@ include('header.php');
       <div class="table-responsive">
         <table class="table table-striped table-bordered">
           <tr>
-            <th>Student Name</th>
-            <th>Attendance Status</th>
           </tr>
-          Salida
         </table></div>
       </div>
     </div>
@@ -101,11 +101,15 @@ var perc_asistencias;
 var asistencia;
 var faltas;
 var leyendas;
+var periodicidad="";
+var root;
+var series;
 function monthgraph(start_date,end_date){
+  console.log(periodicidad);
   asistencia = [];
   faltas = [];
   leyendas= []
-  var periodicidad= $('input[name=periodo]:checked', '#radio_period').val();
+  periodicidad= $('input[name=periodo]:checked', '#radio_period').val();
   console.log(periodicidad);
   $.ajax({
     type: "GET",
@@ -116,13 +120,18 @@ function monthgraph(start_date,end_date){
       console.log(data);
       var data = JSON.stringify(data);
       var obj = JSON.parse(data);
-      for(var i in obj){
-        asistencia.push(obj[i]['asistencia']);
+      for(var i in obj){        
+        asistencia.push({
+          date: obj[i]['Date'],
+          value: Number(obj[i]['asistencia'])
+        });
         faltas.push(obj[i]['faltas']);
         leyendas.push(obj[i]['Month']);
       }
       console.log(asistencia);
+      var data = asistencia;
 
+      series.data.setAll(data);
 
 
 
@@ -130,7 +139,13 @@ function monthgraph(start_date,end_date){
     }
   }
   )
-  var root = am5.Root.new("chartdiv");
+
+  if (typeof root !== 'undefined') {
+    series.clear();
+     root.container.children.clear();
+}else {
+    root = am5.Root.new("chartdiv");
+}
 
 
 // Set themes
@@ -159,31 +174,47 @@ var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
 cursor.lineY.set("visible", false);
 
 
-// Generate random data
-var date = new Date();
-date.setHours(0, 0, 0, 0);
-var value = 100;
+for(var j in asistencia){        
+  am5.time.add(asistencia[j]["date"], "day", 1);
+  asistencia[j]["date"]=asistencia[j]["date"].getTime();
+};
 
-function generateData() {
-  value = Math.round((Math.random() * 10 - 5) + value);
-  am5.time.add(date, "day", 1);
-  return {
-    date: date.getTime(),
-    value: value
-  };
-}
 
 function generateDatas(count) {
-  var data = [];
-  for (var i = 0; i < count; ++i) {
-    data.push(generateData());
-  }
-  return data;
+ var data = [];
+ for (var i = 0; i < count; ++i) {
+  data.push(generateData());
 }
+return data;
+}
+
 
 
 // Create axes
 // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+    if (periodicidad="Mensual"){
+      var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+  maxDeviation: 0.2,
+  baseInterval: {
+    timeUnit: "month",
+    count: 1
+  },
+  renderer: am5xy.AxisRendererX.new(root, {}),
+  tooltip: am5.Tooltip.new(root, {})
+}));
+
+    }else{
+      var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+  maxDeviation: 0.2,
+  baseInterval: {
+    timeUnit: "day",
+    count: 1
+  },
+  renderer: am5xy.AxisRendererX.new(root, {}),
+  tooltip: am5.Tooltip.new(root, {})
+}));
+    }
+
 var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
   maxDeviation: 0.2,
   baseInterval: {
@@ -195,13 +226,16 @@ var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
 }));
 
 var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+  min: 0,
+  max:1,
   renderer: am5xy.AxisRendererY.new(root, {})
+
 }));
 
 
 // Add series
 // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-var series = chart.series.push(am5xy.LineSeries.new(root, {
+ series = chart.series.push(am5xy.LineSeries.new(root, {
   name: "Series",
   xAxis: xAxis,
   yAxis: yAxis,
@@ -221,8 +255,8 @@ chart.set("scrollbarX", am5.Scrollbar.new(root, {
 
 
 // Set data
-var data = generateDatas(1200);
-series.data.setAll(data);
+
+
 
 
 // Make stuff animate on load
@@ -232,7 +266,7 @@ chart.appear(1000, 100);
 
 
 
-  
+
 }
 </script>
 </body>
