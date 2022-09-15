@@ -33,36 +33,36 @@ if(!isset($_SESSION["admin_id"]))
 </head>
 <body>
 
-<div class="jumbotron-small text-center" style="margin-bottom:0">
-  <h1>Sistema de assitencia</h1>
-</div>
+  <div class="jumbotron-small text-center" style="margin-bottom:0">
+    <h1><img src="logo.jpg"></h1>
+  </div>
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <a class="navbar-brand" href="index.php">Inicio</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="grade.php">Curso</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="teacher.php">Staff</a>
-      </li>
-      
-      <li class="nav-item">
-        <a class="nav-link" href="student.php">Niños</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="attendance.php">Asistencia</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="logout.php">Salir</a>
-      </li> 
-       <li class="nav-item">
-        <a class="nav-link" href="graphs.php">Gráficas</a>
-      </li>  
-    </ul>
-  </div>  
-</nav>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand" href="index.php">Inicio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="grade.php">Curso</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="teacher.php">Staff</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="student.php">Niños</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="attendance.php">Asistencia</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="graphs.php">Gráficas</a>
+        </li>  
+        <li class="nav-item">
+          <a class="nav-link" href="logout.php">Salir</a>
+        </li> 
+      </ul>
+    </div>  
+  </nav>

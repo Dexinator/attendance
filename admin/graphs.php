@@ -41,13 +41,14 @@ include('header.php');
 
         </table>
       </div>
-      <div id="attendance_pie_chart" style="width: 100%; height: 400px;">
+      
+
+      <h2>Porcentaje de asistencia</h2>
+      <div id="AVGPERC"></div>
+      <div id="chartdiv"></div>
 
 
-        <div id="chartdiv"></div>
-
-
-      </div>
+      
 
       <div class="table-responsive">
         <table class="table table-striped table-bordered">
@@ -64,6 +65,10 @@ include('header.php');
 
 
   <script>
+    var suma_porcentajes ;
+    var promedio_porcentaje;
+
+
     function addElement () {
   // crea un nuevo div
   // y añade contenido
@@ -104,7 +109,12 @@ var leyendas;
 var periodicidad="";
 var root;
 var series;
+var suma_porcentajes;
+var promedio_porcentaje;
 function monthgraph(start_date,end_date){
+
+  suma_porcentajes =0;
+  promedio_porcentaje=0;
   console.log(periodicidad);
   asistencia = [];
   faltas = [];
@@ -125,15 +135,18 @@ function monthgraph(start_date,end_date){
           date: obj[i]['Date'],
           value: Number(obj[i]['asistencia'])
         });
+       suma_porcentajes += obj[i]['asistencia'];
         faltas.push(obj[i]['faltas']);
         leyendas.push(obj[i]['Month']);
       }
+      promedio_porcentaje=suma_porcentajes/obj.length;
+
       console.log(asistencia);
       var data = asistencia;
 
       series.data.setAll(data);
-
-
+      document.getElementById("AVGPERC").innerHTML=Math.round((promedio_porcentaje + Number.EPSILON) * 10000) / 100 + " %"
+;
 
 
     }
@@ -141,11 +154,11 @@ function monthgraph(start_date,end_date){
   )
 
   if (typeof root !== 'undefined') {
-    series.clear();
-     root.container.children.clear();
-}else {
+    chart.series.removeIndex(0);
+    root.container.children.clear();
+  }else {
     root = am5.Root.new("chartdiv");
-}
+  }
 
 
 // Set themes
@@ -192,28 +205,28 @@ return data;
 
 // Create axes
 // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-    if (periodicidad="Mensual"){
-      var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
-  maxDeviation: 0.2,
-  baseInterval: {
-    timeUnit: "month",
-    count: 1
-  },
-  renderer: am5xy.AxisRendererX.new(root, {}),
-  tooltip: am5.Tooltip.new(root, {})
-}));
+if (periodicidad="Mensual"){
+  var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+    maxDeviation: 0.2,
+    baseInterval: {
+      timeUnit: "month",
+      count: 1
+    },
+    renderer: am5xy.AxisRendererX.new(root, {}),
+    tooltip: am5.Tooltip.new(root, {})
+  }));
 
-    }else{
-      var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
-  maxDeviation: 0.2,
-  baseInterval: {
-    timeUnit: "day",
-    count: 1
-  },
-  renderer: am5xy.AxisRendererX.new(root, {}),
-  tooltip: am5.Tooltip.new(root, {})
-}));
-    }
+}else{
+  var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+    maxDeviation: 0.2,
+    baseInterval: {
+      timeUnit: "day",
+      count: 1
+    },
+    renderer: am5xy.AxisRendererX.new(root, {}),
+    tooltip: am5.Tooltip.new(root, {})
+  }));
+}
 
 var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
   maxDeviation: 0.2,
@@ -233,9 +246,12 @@ var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
 }));
 
 
+
+
+
 // Add series
 // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
- series = chart.series.push(am5xy.LineSeries.new(root, {
+series = chart.series.push(am5xy.LineSeries.new(root, {
   name: "Series",
   xAxis: xAxis,
   yAxis: yAxis,
@@ -245,6 +261,8 @@ var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
     labelText: "{valueY}"
   })
 }));
+
+
 
 
 // Add scrollbar
